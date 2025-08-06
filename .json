@@ -1,0 +1,24 @@
+{
+  "image": "11notes/syncthing",
+  "name": "syncthing",
+  "root": "/syncthing",
+  "semver": {
+    "version": "1.30.0"
+  },
+  "readme": {
+    "description": "Run syncthing rootless and distroless.",
+    "introduction": "Syncthing is a continuous file synchronization program. It synchronizes files between two or more computers.",
+    "built": {
+      "syncthing": "https://github.com/syncthing/syncthing"
+    },
+    "distroless": {
+      "layers": [
+        "11notes/distroless",
+        "11notes/distroless:localhealth"
+      ]
+    },
+    "comparison": {
+      "image": "linuxserver/syncthing"
+    }
+  }
+}

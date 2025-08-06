@@ -1,0 +1,29 @@
+name: "syncthing"
+services:
+  server:
+    image: "11notes/syncthing:1.30.0"
+    read_only: true
+    environment:
+      TZ: "Europe/Zurich"
+      SYNCTHING_PASSWORD: "${SYNCTHING_PASSWORD}"
+      SYNCTHING_API_KEY: "${SYNCTHING_API_KEY}"
+    volumes:
+      - "syncthing.etc:/syncthing/etc"
+      - "syncthing.var:/syncthing/var"
+      - "syncthing.share:/syncthing/share"
+    ports:
+      - "3000:3000/tcp"
+      - "22000:22000/tcp"
+      - "22000:22000/udp"
+      - "21027:21027/udp"
+    networks:
+      frontend:
+    restart: "always"
+
+volumes:
+  syncthing.etc:
+  syncthing.var:
+  syncthing.share:
+
+networks:
+  frontend:
