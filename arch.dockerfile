@@ -86,7 +86,6 @@
     COPY --from=build /distroless/ /
     COPY --from=entrypoint /distroless/ /
     COPY --from=file-system --chown=${APP_UID}:${APP_GID} /distroless/ /
-    COPY --chown=${APP_UID}:${APP_GID} ./rootfs/ /
 
 # :: PERSISTENT DATA
   VOLUME ["${APP_ROOT}/etc", "${APP_ROOT}/var", "${APP_ROOT}/share"]
