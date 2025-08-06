@@ -1,3 +1,5 @@
+${{ image: Dashboard.png }}
+
 ${{ content_synopsis }} This image will run syncthing [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) and [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md), for maximum security and performance. If no configuration is found this image will automatically generate a new one with the environment variables used. This image will also by default disable telemetry.
 
 ${{ content_uvp }} Good question! Because ...
